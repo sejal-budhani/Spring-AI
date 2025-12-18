@@ -2,9 +2,11 @@ package com.example.spring_ai_prompting_parsing.controller;
 
 import com.example.spring_ai_prompting_parsing.entity.Tutorial;
 import com.example.spring_ai_prompting_parsing.service.ChatService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -40,5 +42,11 @@ public class ChatController {
         System.out.println(query);
         List<Tutorial> tutorials = chatService.getEntityChatList(query);
         return ResponseEntity.ok(tutorials);
+    }
+
+    @GetMapping("chatTemplate")
+    public ResponseEntity<String> chatTemplate(@RequestParam(value = "q") String query) {
+        System.out.println(query);
+        return ResponseEntity.ok(chatService.getChatTemplateResponse(query));
     }
 }

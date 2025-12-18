@@ -11,4 +11,6 @@ public interface ChatService {
     Tutorial getEntityChat(String query);
 
     List<Tutorial> getEntityChatList(String query);
+
+    String getChatTemplateResponse(String query);
 }
