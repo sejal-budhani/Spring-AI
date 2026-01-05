@@ -49,4 +49,10 @@ public class ChatController {
         System.out.println(query);
         return ResponseEntity.ok(chatService.getChatTemplateResponse(query));
     }
+
+    @GetMapping("chatTemplateThroughFiles")
+    public ResponseEntity<String> chatTemplateThroughFiles(@RequestParam(value = "q") String query) {
+        System.out.println(query);
+        return ResponseEntity.ok(chatService.getChatTemplateResponseFromFilesPrompt(query));
+    }
 }
