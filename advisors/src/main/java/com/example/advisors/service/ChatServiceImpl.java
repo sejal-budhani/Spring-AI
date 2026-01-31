@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -36,5 +37,16 @@ public class ChatServiceImpl implements ChatService {
                 .call()
                 .content();
         return response;
+    }
+
+    @Override
+    public Flux<String> getChatStreamResponse(String query) {
+        Flux<String> streamResponse = chatClient
+                .prompt()
+                .system(system -> system.text(systemMessage))
+                .user(user -> user.text(userMessage).param("concept", query))
+                .stream()
+                .content();
+        return streamResponse;
     }
 }
