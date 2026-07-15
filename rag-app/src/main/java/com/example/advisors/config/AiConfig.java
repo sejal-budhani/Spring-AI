@@ -43,7 +43,7 @@ public class AiConfig {
 //                .defaultAdvisors(new TokenPrintAdvisor(), new SimpleLoggerAdvisor(), new SafeGuardAdvisor(List.of("game")))
 //                .defaultAdvisors(messageChatMemoryAdvisor, new TokenPrintAdvisor(), new SafeGuardAdvisor(List.of("game")))
                 .defaultAdvisors(messageChatMemoryAdvisor, new SimpleLoggerAdvisor(), new SafeGuardAdvisor(List.of("game")))
-                .defaultSystem("You are a helpful coding assistant, you are an expert in coding")
+//                .defaultSystem("You are a helpful coding assistant, you are an expert in coding")
                 .build();
     }
 }

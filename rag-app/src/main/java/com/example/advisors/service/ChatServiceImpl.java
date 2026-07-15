@@ -2,6 +2,8 @@ package com.example.advisors.service;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,16 +47,34 @@ public class ChatServiceImpl implements ChatService {
 //                .call()
 //                .content();
 
-        SearchRequest searchRequest = SearchRequest.builder()
-                .topK(5)
-                .similarityThreshold(0.6)
-                .query(query)
+//        ==== Manual way RAG ====
+//        SearchRequest searchRequest = SearchRequest.builder()
+//                .topK(5)
+//                .similarityThreshold(0.6)
+//                .query(query)
+//                .build();
+//        List<Document> documents = this.vectorStore.similaritySearch(searchRequest);
+//        List<String> documentList = documents.stream().map(Document::getText).toList();
+//        String concatenated = String.join(", ", documentList);
+//
+//        return this.chatClient.prompt()
+//                .system(system -> system.text(systemMessage).param("documents", concatenated))
+//                .user(user -> user.text(userMessage)
+//                        .param("concept", query))
+//                .call()
+//                .content();
+
+//        ===== RetrievalAugmentationAdvisor RAG =====
+
+        var advisor = RetrievalAugmentationAdvisor.builder()
+                .documentRetriever(VectorStoreDocumentRetriever.builder()
+                        .vectorStore(vectorStore)
+                        .topK(3)
+                        .similarityThreshold(0.7)
+                        .build())
                 .build();
-        List<Document> documents = this.vectorStore.similaritySearch(searchRequest);
-        List<String> documentList = documents.stream().map(Document::getText).toList();
-        String concatenated = String.join(", ", documentList);
         return this.chatClient.prompt()
-                .system(system -> system.text(systemMessage).param("documents", concatenated))
+                .advisors(advisor)
                 .user(user -> user.text(userMessage)
                         .param("concept", query))
                 .call()
