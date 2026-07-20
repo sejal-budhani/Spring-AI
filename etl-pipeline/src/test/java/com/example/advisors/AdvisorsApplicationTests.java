@@ -48,6 +48,8 @@ class AdvisorsApplicationTests {
 
         var transformedDocument = this.dataTransformer.transform(documents);
         System.out.println("Transformed data " + transformedDocument.size());
+
+//        Adding data to database now
         this.vectorStore.add(transformedDocument);
         System.out.println("Done");
     }
