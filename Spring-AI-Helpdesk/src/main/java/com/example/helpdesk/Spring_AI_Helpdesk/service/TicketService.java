@@ -1,0 +1,34 @@
+package com.example.helpdesk.Spring_AI_Helpdesk.service;
+
+import com.example.helpdesk.Spring_AI_Helpdesk.entity.Ticket;
+import com.example.helpdesk.Spring_AI_Helpdesk.repository.TicketRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class TicketService {
+
+    private TicketRepository ticketRepository = null;
+
+    public TicketService(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
+//    Create ticket logic
+    public Ticket createTicket(Ticket ticket) {
+        return this.ticketRepository.save(ticket);
+    }
+
+//    Update ticket logic
+    public Ticket updateTicket(Ticket ticket) {
+        return this.ticketRepository.save(ticket);
+    }
+
+//    Get ticket logic
+    public Ticket getTicket(Long ticketId) {
+        return this.ticketRepository.findById(ticketId).orElse(null);
+    }
+
+//    Get ticket by username
+    public Ticket getTicketByUsername(String username) {
+        return this.ticketRepository.findByUsername(username).orElse(null);
+    }
+}
